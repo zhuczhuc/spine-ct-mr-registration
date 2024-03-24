@@ -25,7 +25,7 @@ def run_epoch(
     phase: str,
 ) -> torch.Tensor:
     logging_dict = dict()
-    for data in dataloader:
+    for idx, data in enumerate(dataloader):
         for target, target_oh, source, source_oh in zip(
                 data['mr'].to(cfg.device).float(),
                 data['mr_oh'].to(cfg.device).float(),
@@ -36,6 +36,7 @@ def run_epoch(
             target = target.unsqueeze(0)
             source = source.unsqueeze(0)
 
+            print(target.sum())
             # ignore low-volume vertebra
             # one-hot label with shape [NHWD]
             mask = torch.logical_and(

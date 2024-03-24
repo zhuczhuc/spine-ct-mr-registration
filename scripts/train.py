@@ -22,6 +22,8 @@ def train(config_file: str):
     # load configuration
     cfg = Config.fromfile(config_file)
 
+    wandb.login()
+
     wandb.init(project=cfg.project,
                name=cfg.name,
                group=cfg.group,
@@ -78,13 +80,13 @@ def train(config_file: str):
 
     best_dice = 1
     for epoch in range(cfg.start_epoch, cfg.max_epochs):
-        if epoch % cfg.val_interval == 0 or epoch == cfg.start_epoch:
-            phase = 'val'
-            model.eval()
-            with torch.no_grad():
-                val_dice = run_epoch(cfg, model, register, val_loader,
-                                     loss_funcs, loss_weights, optimizer,
-                                     metric_func, phase)
+        # if epoch % cfg.val_interval == 0 or epoch == cfg.start_epoch:
+        #     phase = 'val'
+        #     model.eval()
+        #     with torch.no_grad():
+        #         val_dice = run_epoch(cfg, model, register, val_loader,
+        #                              loss_funcs, loss_weights, optimizer,
+        #                              metric_func, phase)
 
         phase = 'train'
         model.train()
@@ -106,9 +108,12 @@ if __name__ == '__main__':
 
     import configargparse
 
+    parent_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))
+    config_file = os.path.join(parent_dir, "configs/voxelmorph_half_res_mind_oc_pc.py")
+
     p = configargparse.ArgParser()
     p.add_argument('--config-file',
-                   required=True,
+                   default=config_file,
                    type=lambda f: pathlib.Path(f).absolute(),
                    help='path of configure file')
     args = p.parse_args()

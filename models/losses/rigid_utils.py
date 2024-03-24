@@ -143,7 +143,7 @@ def get_mass_center(label_map: torch.Tensor, grid: torch.Tensor,
         center_mass: tensor of shape (3,N)
 
     """
-    label_map = label_map.squeeze(0)
+    label_map = label_map.squeeze(0)  # zhuc
     intensity_sum = torch.sum(label_map, dim=list(range(1, dim + 1)))
     # center_mass_i shape N
     center_mass_x = torch.sum(label_map * grid[0, ...],

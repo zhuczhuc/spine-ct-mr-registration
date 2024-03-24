@@ -26,7 +26,8 @@ if use_last_ckpt:
 lr = 1e-4
 decay_rate = 0.999
 start_epoch = 0
-max_epochs = 400
+max_epochs = 2
+# max_epochs = 400  # zhuc
 val_interval = 20
 save_interval = 100
 

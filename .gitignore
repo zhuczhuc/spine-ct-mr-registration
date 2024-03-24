@@ -1,3 +1,5 @@
 .idea
 **/__pycache__/
 notebooks/
+scripts/saved_models/
+scripts/wandb/
